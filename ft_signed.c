@@ -18,10 +18,8 @@ void			ft_printsignednum(t_print *f, intmax_t i)
 	uintmax_t	power;
 	char		c;
 
-	c = 0;
 	neg = (i < 0) ? -1 : 1;
 	power = ft_pow(f);
-	power = power / f->base;
 	while (i != 0 && power != 0)
 	{
 		c = (((i * neg) / power) + '0');
@@ -78,40 +76,8 @@ intmax_t	ft_signedtypecast(t_print *f, intmax_t i)
 		return (i);
 }
 
-// void			ft_printsignedmod(t_print *f, va_list *arg)
-// {
-// 	if ((f->len == PRINTF_L) || (f->caps == 1))
-// 		f->uptr.l = va_arg(*(arg), intmax_t);
-// 	else if (f->len == PRINTF_HH)
-// 		f->uptr.c = va_arg(*(arg), intmax_t);
-// 	else if (f->len == PRINTF_H)
-// 		f->uptr.si = va_arg(*(arg), intmax_t);
-// 	else if (f->len == PRINTF_LL)
-// 		f->uptr.ll = va_arg(*(arg), intmax_t);
-// 	else if (f->len == PRINTF_J)
-// 		f->uptr.t = va_arg(*(arg), intmax_t);
-// 	else if (f->len == PRINTF_Z)
-// 		f->uptr.z = va_arg(*(arg), intmax_t);
-// 	else
-// 		f->uptr.i = va_arg(*(arg), intmax_t);
-// 	ft_printsigned(f, f->uptr.t);
-// }
-
-void			ft_printsigned(t_print *f, va_list *arg)
+void			ft_putsigned(t_print *f, intmax_t i, int zeroes, int spaces)
 {
-	intmax_t	i;
-	int			zeroes;
-	int			spaces;
-
-	i = va_arg(*(arg), intmax_t);
-	i = ft_signedtypecast(f, i);
-	ft_digits(f, i);
-	zeroes = ft_signedzero(f, i);
-	spaces = f->padding - f->digits - zeroes;
-	if (i == 0 && f->precision == 0)
-		spaces++;
-	if (i < 0 || f->plus || f->space)
-		spaces--;
 	while (f->minus == 0 && spaces-- > 0)
 	{
 		write (1, " ", 1);
@@ -129,4 +95,22 @@ void			ft_printsigned(t_print *f, va_list *arg)
 		write(1, " ", 1);
 		f->done++;
 	}
+}
+
+void			ft_printsigned(t_print *f, va_list *arg)
+{
+	intmax_t	i;
+	int			zeroes;
+	int			spaces;
+
+	i = va_arg(*(arg), intmax_t);
+	i = ft_signedtypecast(f, i);
+	ft_digits(f, i);
+	zeroes = ft_signedzero(f, i);
+	spaces = f->padding - f->digits - zeroes;
+	if (i == 0 && f->precision == 0)
+		spaces++;
+	if (i < 0 || f->plus || f->space)
+		spaces--;
+	ft_putsigned(f, i, zeroes, spaces);
 }

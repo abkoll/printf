@@ -37,8 +37,17 @@ uintmax_t		ft_pow(t_print *f)
 	dig	= f->digits;
 	while (dig-- > 1)
 		power *= f->base;
+	power /= f->base;
 	return (power);
 }
+
+// uintmax_t		ft_pow(int base, int pow)
+// {
+// 	if (pow == 0)
+// 		return (1);
+// 	else
+// 		return (base * ft_pow(base, pow -1));
+// }
 
 int				ft_signedzero(t_print *f, intmax_t i)
 {
@@ -57,15 +66,6 @@ int				ft_signedzero(t_print *f, intmax_t i)
 	}
 	return (zeroes);
 }
-
-// void		ft_strcast(t_print *f, va_list *arg)
-// {
-// 	if (f->caps == 1)
-// 		f->uptr.wc = *(va_arg(*(arg), wchar_t *));
-// 	else
-// 		f->uptr.c = *(va_arg(*(arg), char *));
-// 	ft_printstring(f, &f->uptr.wc);
-// }
 
 void	ft_putwidestring(t_print *f, wchar_t *str, int spaces)
 {
