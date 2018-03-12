@@ -94,7 +94,7 @@ void				ft_printstring(t_print *f, va_list *arg);
 void				ft_printchar(t_print *f, va_list *arg);
 void				ft_printsigned(t_print *f, va_list *arg);
 void				ft_printunsignedmod(t_print *f, va_list *arg);
-void				ft_printunsigned(t_print *f, uintmax_t u);
+void				ft_printunsigned(t_print *f, va_list *arg);
 size_t				ft_strlen(const char *s);
 uintmax_t			ft_pow(t_print *f);
 void				ft_putstr(t_print *f, char *str, int spaces);

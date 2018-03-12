@@ -83,7 +83,8 @@ void		ft_varsort(t_print *f, va_list *arg)
 		ft_printsigned(f, arg);
 	if (f->data == VAR_HEX || f->data == VAR_OCT || f->data == VAR_UI ||
 		f->data == VAR_PTR)
-		ft_printunsignedmod(f, arg);
+		// ft_printunsignedmod(f, arg);
+		ft_printunsigned(f, arg);
 }
 
 int			ft_printf(const char *format, ...)
