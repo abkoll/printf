@@ -12,19 +12,20 @@
 
 #include "ftprintf.h"
 
-intmax_t		ft_digits(t_print *f, intmax_t i)
+void		ft_digits(t_print *f, intmax_t i)
 {
 	intmax_t	digits;
 
 	if (i == 0)
-		return (1);
-	digits = 0;
+		digits = 1;
+	else
+		digits = 0;
 	while (i != 0)
 	{
 		i = i / f->base;
 		digits++;
 	}
-	return (digits);
+	f->digits = digits;
 }
 
 uintmax_t		ft_pow(t_print *f)
@@ -48,7 +49,7 @@ int				ft_signedzero(t_print *f, intmax_t i)
 	dig = f->digits;
 	if (f->precision >= dig)
 		zeroes = f->precision - dig;
-	else if (f->zero && f->padding > 0 && f->minus == 0)
+	else if (f->zero == 1 && f->padding > 0 && f->minus == 0)
 	{
 		zeroes = f->padding - dig;
 		if (i < 0 || f->plus || f->space)
@@ -57,23 +58,16 @@ int				ft_signedzero(t_print *f, intmax_t i)
 	return (zeroes);
 }
 
-void		ft_printstring(t_print *f, va_list *arg)
-{
-	char	*str;
-	int		spaces;
-	int		length;
+// void		ft_strcast(t_print *f, va_list *arg)
+// {
+// 	if (f->caps == 1)
+// 		f->uptr.wc = *(va_arg(*(arg), wchar_t *));
+// 	else
+// 		f->uptr.c = *(va_arg(*(arg), char *));
+// 	ft_printstring(f, &f->uptr.wc);
+// }
 
-	str = va_arg(*(arg), char *);
-	if (!str)
-		str = "(null)";
-	length = (int)ft_strlen(str);
-	spaces = f->padding - length;
-	if (f->precision < length && f->precision != -1)
-		spaces = spaces - (f->precision - length);
-	ft_putstr(f, str, spaces);
-}
-
-void	ft_putstr(t_print *f, char *str, int spaces)
+void	ft_putwidestring(t_print *f, wchar_t *str, int spaces)
 {
 	int		i;
 
@@ -85,7 +79,72 @@ void	ft_putstr(t_print *f, char *str, int spaces)
 	}
 	while (str[i])
 	{
-		if((f->precision >= 0) && ((i + 1) > f->precision))
+		if((f->precision != -1) && ((i + 1) > f->precision))
+			break;
+		write(1, &str[i++], 1);
+		f->done++;
+	}
+	while (f->minus == 1 && spaces-- > 0)
+	{
+		write(1, " ", 1);
+		f->done++;
+	}
+}
+
+int			ft_widestrlen(const wchar_t *c)
+{
+	int		len;
+	len = 0;
+	while (c[len])
+		len++;
+	return (len);
+}
+
+void		ft_printwidestring(t_print *f, va_list *arg)
+{
+	wchar_t		*str;
+	int			spaces;
+	int			length;
+
+	str = va_arg(*(arg), wchar_t *);
+	// if (!str)
+	// 	str = "(null)";
+	length = ft_widestrlen(str);
+	spaces = f->padding - length;
+	if (f->precision < length && f->precision != -1)
+		spaces = spaces - (f->precision - length);
+	ft_putwidestring(f, str, spaces);
+}
+
+void		ft_printstring(t_print *f, va_list *arg)
+{
+	char		*str;
+	int			spaces;
+	int			length;
+
+	str = va_arg(*(arg), char *);
+	if (!str)
+		str = "(null)";
+	length = (int)ft_strlen(str);
+	spaces = f->padding - length;
+	if (f->precision < length && f->precision != -1)
+		spaces = spaces - (f->precision - length);
+	ft_putstring(f, str, spaces);
+}
+
+void	ft_putstring(t_print *f, char *str, int spaces)
+{
+	int		i;
+
+	i = 0;
+	while (f->minus == 0 && spaces-- > 0)
+	{
+		write(1, " ", 1);
+		f->done++;
+	}
+	while (str[i])
+	{
+		if((f->precision != -1) && ((i + 1) > f->precision))
 			break;
 		write(1, &str[i++], 1);
 		f->done++;

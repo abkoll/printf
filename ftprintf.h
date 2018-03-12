@@ -35,6 +35,7 @@ typedef union
 	unsigned int		ui;
 	short				si;
 	unsigned short		us;
+	wchar_t				wc;
 	unsigned char		uc;
 	char				c;
 	void				*v;
@@ -97,10 +98,12 @@ void				ft_printunsignedmod(t_print *f, va_list *arg);
 void				ft_printunsigned(t_print *f, va_list *arg);
 size_t				ft_strlen(const char *s);
 uintmax_t			ft_pow(t_print *f);
-void				ft_putstr(t_print *f, char *str, int spaces);
+void				ft_putstring(t_print *f, char *str, int spaces);
 int					ft_signedzero(t_print *f, intmax_t i);
-intmax_t			ft_digits(t_print *f, intmax_t i);
+void				ft_digits(t_print *f, intmax_t i);
 void				ft_write(t_print *f, char c);
 void				ft_printsignedmod(t_print *f, va_list *arg);
+void				ft_strcast(t_print *f, va_list *arg);
+void				ft_printwidestring(t_print *f, va_list *arg);
 
 #endif

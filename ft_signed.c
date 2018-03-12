@@ -103,10 +103,9 @@ void			ft_printsigned(t_print *f, va_list *arg)
 	int			zeroes;
 	int			spaces;
 
-	spaces = 0;
 	i = va_arg(*(arg), intmax_t);
 	i = ft_signedtypecast(f, i);
-	f->digits = ft_digits(f, i);
+	ft_digits(f, i);
 	zeroes = ft_signedzero(f, i);
 	spaces = f->padding - f->digits - zeroes;
 	if (i == 0 && f->precision == 0)
