@@ -77,7 +77,8 @@ void		ft_varsort(t_print *f, va_list *arg)
 {
 	if (f->data == VAR_C || f->data == VAR_INVSPC)
 		ft_printchar(f, arg);
-	if (f->data == VAR_S && f->caps == 1)
+	if ((f->data == VAR_S && f->caps == 1) || (f->data == VAR_S && 
+		f->len == PRINTF_L))
 		ft_printwidestring(f, arg);
 	if (f->data == VAR_S && f->caps == 0)
 		ft_printstring(f, arg);
