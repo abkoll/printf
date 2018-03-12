@@ -107,8 +107,6 @@ void		ft_printwidestring(t_print *f, va_list *arg)
 	int			length;
 
 	str = va_arg(*(arg), wchar_t *);
-	// if (!str)
-	// 	str = "(null)";
 	length = ft_widestrlen(str);
 	spaces = f->padding - length;
 	if (f->precision < length && f->precision != -1)
