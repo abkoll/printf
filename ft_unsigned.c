@@ -12,18 +12,17 @@
 
 #include "ftprintf.h"
 
-uintmax_t	ft_upow(t_print *f)
+void			ft_writeoct(t_print *f, uintmax_t i, uintmax_t power)
 {
-	uintmax_t	power;
-	uintmax_t	udig;
-
-	udig = f->udigits - 1;
-	power = f->base;
-	if (udig == 0)
-		return (1);
-	while (udig-- > 1)
-		power *= f->base;
-	return (power);
+	while (i == 0 && power > 0)
+	{
+		if (f->precision != 0 || (f->hash == 1 && f->data == VAR_OCT))
+		{
+			write(1, "0", 1);
+			f->done++;
+		}
+		power = power / f->base;
+	}
 }
 
 void			ft_printunsignednum(t_print *f, uintmax_t i)
@@ -32,7 +31,6 @@ void			ft_printunsignednum(t_print *f, uintmax_t i)
 	uintmax_t	power;
 	int			cap;
 
-	c = 0;
 	cap = (f->caps) ? '7' : 'W';
 	power = ft_upow(f);
 	while (i != 0 && power != 0)
@@ -52,58 +50,12 @@ void			ft_printunsignednum(t_print *f, uintmax_t i)
 		i = i - (i / power) * power;
 		power = power / f->base;
 	}
-	while (i == 0 && power > 0)
-	{
-		if (f->precision != 0 || (f->hash == 1 && f->data == VAR_OCT))
-		{
-			write(1, "0", 1);
-			f->done++;
-		}
-		power = power / f->base;
-	}
-}
-
-// void			ft_printunsignednum(t_print *f, uintmax_t i)
-// {
-
-// }
-
-uintmax_t		ft_udigits(t_print *f, uintmax_t i)
-{
-	uintmax_t	digits;
-
-	if (i == 0)
-		return (1);
-	digits = 0;
-	while (i != 0)
-	{
-		i = i / f->base;
-		digits++;
-	}
-	return (digits);
-}
-
-int				ft_unsignedzero(t_print *f)
-{
-	int			zeroes;
-	uintmax_t	dig;
-
-	zeroes = 0;
-	dig = f->udigits;
-	if (f->precision >= (int)dig)
-		zeroes = f->precision - dig;
-	else if ((f->zero && f->padding > 0) && f->minus == 0)
-	{
-		zeroes = f->padding - dig;
-		if (f->data == VAR_PTR || (f->hash == 1 && f->data == VAR_HEX))
-			zeroes -= 2;
-	}
-	return (zeroes);
+	ft_writeoct(f, i, power);
 }
 
 void			ft_uprefix(t_print *f, uintmax_t i)
 {
-	if (f->data == VAR_PTR || ((f->hash == 1 && i != 0) && 
+	if (f->data == VAR_PTR || ((f->hash == 1 && i != 0) &&
 		(f->data == VAR_OCT || f->data == VAR_HEX)))
 	{
 		write(1, "0", 1);
@@ -121,31 +73,11 @@ void			ft_uprefix(t_print *f, uintmax_t i)
 	}
 }
 
-uintmax_t	ft_unsignedtypecast(t_print *f, uintmax_t i)
-{
-	if (f->data == VAR_PTR)
-		return (i);
-	if ((f->len == PRINTF_L) || (f->data != VAR_HEX && f->caps == 1))
-		return ((unsigned long int)i);
-	if (f->len == PRINTF_NONE)
-		return ((unsigned int)i);
-	if (f->len == PRINTF_HH)
-		return ((unsigned char)i);
-	if (f->len == PRINTF_H)
-	 	return ((unsigned short int)i);
-	if (f->len == PRINTF_LL)
-		return ((unsigned long long)i);
-	if (f->len == PRINTF_Z)
-	 	return ((size_t)i);
-	else
-		return (i);
-}
-
 void			ft_putunsigned(t_print *f, uintmax_t i, int zeroes, int spaces)
 {
 	while (f->minus == 0 && spaces-- > 0)
 	{
-		write (1, " ", 1);
+		write(1, " ", 1);
 		f->done++;
 	}
 	ft_uprefix(f, i);
@@ -178,7 +110,7 @@ void			ft_printunsigned(t_print *f, va_list *arg)
 	if (i == 0 && f->precision == 0)
 		spaces++;
 	if (f->data == VAR_PTR || (f->hash == 1 && f->data == VAR_HEX))
-		spaces-= 2;
+		spaces -= 2;
 	else if (f->hash == 1 && f->data == VAR_OCT)
 		spaces--;
 	ft_putunsigned(f, i, zeroes, spaces);

@@ -23,7 +23,9 @@ SRCS	= ft_printf.c \
 			ft_atoi.c \
 			ft_signed.c \
 			ft_strlen.c \
-			ft_unsigned.c
+			ft_unsigned.c \
+			ft_stringput.c \
+			ft_unsignedfunc.c
 
 OBJS	= $(SRCS:.c=.o)
 

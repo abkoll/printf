@@ -43,39 +43,7 @@ void	ft_precision(const char *fm, t_print *f)
 		f->index++;
 }
 
-// void	ft_sizeflag(const char *fm, t_print *f)
-// {
-// 	while (fm[f->index] == 'h' || fm[f->index] == 'l' || fm[f->index] == 'j'
-// 		|| fm[f->index] == 'z')
-// 	{
-// 		if ((fm[f->index] == 'h') && (fm[f->index++] == 'h') && (f->len < 1))
-// 		{
-// 			f->len = PRINTF_HH;
-// 			f->index++;
-// 		}
-// 		else if ((fm[f->index] == 'h') && (fm[f->index++] != 'h') && 
-// 			(f->len < PRINTF_H))
-// 			f->len = PRINTF_H;
-// 		else if ((fm[f->index] == 'l') && (fm[f->index++] == 'l') && 
-// 			f->len < PRINTF_LL)
-// 		{
-// 			f->len = PRINTF_LL;
-// 			f->index++;
-// 		}
-// 		else if ((fm[f->index] == 'l') && (fm[f->index++] != 'l') &&
-// 			f->len < PRINTF_L)
-// 			f->len = PRINTF_L;
-// 		else if ((fm[f->index] == 'j') && f->len < PRINTF_J)
-// 			f->len = PRINTF_J;
-// 		else if ((fm[f->index] == 'z') && f->len < PRINTF_Z)
-// 			f->len = PRINTF_Z;
-// 		f->index++;
-// 	}
-// 	printf("test");
-// 	printf("%d\n", f->len);
-// }
-
-void		ft_sizeflag(const char *fm, t_print *f)
+void	ft_sizeflag(const char *fm, t_print *f)
 {
 	while (fm[f->index] == 'h' || fm[f->index] == 'l' ||
 			fm[f->index] == 'j' || fm[f->index] == 'z')
@@ -105,8 +73,8 @@ void		ft_sizeflag(const char *fm, t_print *f)
 void	ft_escapeparser(const char *fm, t_print *f)
 {
 	ft_flagset(f);
-	while ((fm[f->index] == '-') || (fm[f->index] == '+') || 
-			(fm[f->index] == ' ') || (fm[f->index] == '#') 
+	while ((fm[f->index] == '-') || (fm[f->index] == '+') ||
+			(fm[f->index] == ' ') || (fm[f->index] == '#')
 			|| (fm[f->index] == '0'))
 	{
 		if (fm[f->index] == '-')

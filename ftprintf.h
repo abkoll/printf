@@ -21,27 +21,7 @@
 # include <limits.h>
 # include <stdbool.h>
 
-typedef union
-{
-	size_t				z;
-	intmax_t			t;
-	uintmax_t			ut;
-	unsigned long long	ull;
-	long long			ll;
-	unsigned long		ul;
-	long				l;
-	double				d;
-	int					i;
-	unsigned int		ui;
-	short				si;
-	unsigned short		us;
-	wchar_t				wc;
-	unsigned char		uc;
-	char				c;
-	void				*v;
-} 						u_print;
-
-enum 				e_pfvar
+enum				e_pfvar
 {
 	VAR_C,
 	VAR_I,
@@ -62,9 +42,9 @@ enum				e_printflag
 	PRINTF_LL,
 	PRINTF_J,
 	PRINTF_Z
-}; 
+};
 
-typedef struct 		s_print
+typedef struct		s_print
 {
 	unsigned int	done;
 	int				index;
@@ -82,10 +62,9 @@ typedef struct 		s_print
 	int				len;
 	intmax_t		digits;
 	uintmax_t		udigits;
-	u_print			uptr;
 }					t_print;
 
-int					ft_printf(const char* format, ...);
+int					ft_printf(const char *format, ...);
 int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
 void				ft_parser(const char *format, t_print *f);
@@ -96,12 +75,15 @@ void				ft_printchar(t_print *f, va_list *arg);
 void				ft_printsigned(t_print *f, va_list *arg);
 void				ft_printunsignedmod(t_print *f, va_list *arg);
 void				ft_printunsigned(t_print *f, va_list *arg);
+uintmax_t			ft_unsignedtypecast(t_print *f, uintmax_t i);
 size_t				ft_strlen(const char *s);
 uintmax_t			ft_pow(t_print *f);
+uintmax_t			ft_upow(t_print *f);
 void				ft_putstring(t_print *f, char *str, int spaces);
 int					ft_signedzero(t_print *f, intmax_t i);
+int					ft_unsignedzero(t_print *f);
 void				ft_digits(t_print *f, intmax_t i);
-void				ft_write(t_print *f, char c);
+uintmax_t			ft_udigits(t_print *f, uintmax_t i);
 void				ft_printsignedmod(t_print *f, va_list *arg);
 void				ft_strcast(t_print *f, va_list *arg);
 void				ft_printwidestring(t_print *f, va_list *arg);

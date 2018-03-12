@@ -58,7 +58,7 @@ void			ft_prefix(t_print *f, intmax_t i)
 	}
 }
 
-intmax_t	ft_signedtypecast(t_print *f, intmax_t i)
+intmax_t		ft_signedtypecast(t_print *f, intmax_t i)
 {
 	if ((f->len == PRINTF_L) || (f->caps == 1))
 		return ((long int)i);
@@ -67,11 +67,11 @@ intmax_t	ft_signedtypecast(t_print *f, intmax_t i)
 	if (f->len == PRINTF_HH)
 		return ((signed char)i);
 	if (f->len == PRINTF_H)
-	 	return ((short int)i);
+		return ((short int)i);
 	if (f->len == PRINTF_LL)
 		return ((long long)i);
 	if (f->len == PRINTF_Z)
-	 	return ((size_t)i);
+		return ((size_t)i);
 	else
 		return (i);
 }
@@ -80,7 +80,7 @@ void			ft_putsigned(t_print *f, intmax_t i, int zeroes, int spaces)
 {
 	while (f->minus == 0 && spaces-- > 0)
 	{
-		write (1, " ", 1);
+		write(1, " ", 1);
 		f->done++;
 	}
 	ft_prefix(f, i);
