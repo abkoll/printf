@@ -59,22 +59,24 @@ uintmax_t		ft_udigits(t_print *f, uintmax_t i)
 	return (digits);
 }
 
-uintmax_t		ft_unsignedtypecast(t_print *f, uintmax_t i)
+void			ft_printunsignedmod(t_print *f, va_list *arg)
 {
+	f->uptr.z = 0;
 	if (f->data == VAR_PTR)
-		return (i);
-	if ((f->len == PRINTF_L) || (f->data != VAR_HEX && f->caps == 1))
-		return ((unsigned long int)i);
-	if (f->len == PRINTF_NONE)
-		return ((unsigned int)i);
-	if (f->len == PRINTF_HH)
-		return ((unsigned char)i);
-	if (f->len == PRINTF_H)
-		return ((unsigned short int)i);
-	if (f->len == PRINTF_LL)
-		return ((unsigned long long)i);
-	if (f->len == PRINTF_Z)
-		return ((size_t)i);
+		f->uptr.ut = va_arg(*(arg), uintmax_t);
+	else if ((f->len == PRINTF_L) || (f->data != VAR_HEX && (f->caps == 1)))
+		f->uptr.ul = va_arg(*(arg), uintmax_t);
+	else if (f->len == PRINTF_HH)
+		f->uptr.uc = va_arg(*(arg), uintmax_t);
+	else if (f->len == PRINTF_H)
+		f->uptr.us = va_arg(*(arg), uintmax_t);
+	else if (f->len == PRINTF_LL)
+		f->uptr.ull = va_arg(*(arg), uintmax_t);
+	else if (f->len == PRINTF_J)
+		f->uptr.ut = va_arg(*(arg), uintmax_t);
+	else if (f->len == PRINTF_Z)
+		f->uptr.z = va_arg(*(arg), uintmax_t);
 	else
-		return (i);
+		f->uptr.ui = va_arg(*(arg), uintmax_t);
+	ft_printunsigned(f, f->uptr.ut);
 }

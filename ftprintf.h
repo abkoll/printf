@@ -21,6 +21,17 @@
 # include <limits.h>
 # include <stdbool.h>
 
+union				u_printf
+{
+	uintmax_t			ut;
+	unsigned char		uc;
+	unsigned short int	us;
+	unsigned int		ui;
+	unsigned long		ul;
+	unsigned long long	ull;
+	size_t				z;
+};
+
 enum				e_pfvar
 {
 	VAR_C,
@@ -60,6 +71,7 @@ typedef struct		s_print
 	int				padding;
 	int				precision;
 	int				len;
+	union u_printf	uptr;
 	intmax_t		digits;
 	uintmax_t		udigits;
 }					t_print;
@@ -74,7 +86,7 @@ void				ft_printstring(t_print *f, va_list *arg);
 void				ft_printchar(t_print *f, va_list *arg);
 void				ft_printsigned(t_print *f, va_list *arg);
 void				ft_printunsignedmod(t_print *f, va_list *arg);
-void				ft_printunsigned(t_print *f, va_list *arg);
+void				ft_printunsigned(t_print *f, uintmax_t i);
 uintmax_t			ft_unsignedtypecast(t_print *f, uintmax_t i);
 size_t				ft_strlen(const char *s);
 uintmax_t			ft_pow(t_print *f);
@@ -86,6 +98,6 @@ void				ft_digits(t_print *f, intmax_t i);
 uintmax_t			ft_udigits(t_print *f, uintmax_t i);
 void				ft_printsignedmod(t_print *f, va_list *arg);
 void				ft_strcast(t_print *f, va_list *arg);
-void				ft_printwidestring(t_print *f, va_list *arg);
+int					ft_printwidestring(t_print *f, va_list *arg);
 
 #endif

@@ -6,13 +6,13 @@
 #    By: akoller <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/27 23:33:54 by akoller           #+#    #+#              #
-#    Updated: 2018/02/27 23:33:57 by akoller          ###   ########.fr        #
+#    Updated: 2018/03/13 13:54:30 by akoller          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libftprintf.a
 
-FLAGS	= -Wall -Wextra -Werror -I. -c -g
+FLAGS	= -Wall -Wextra -Werror -I. -g -c
 
 HEADER	= ftprintf.h
 

@@ -46,18 +46,21 @@ int				ft_widestrlen(const wchar_t *c)
 	return (len);
 }
 
-void			ft_printwidestring(t_print *f, va_list *arg)
+int				ft_printwidestring(t_print *f, va_list *arg)
 {
 	wchar_t		*str;
 	int			spaces;
 	int			length;
 
 	str = va_arg(*(arg), wchar_t *);
+	if (!str)
+		return (-1);
 	length = ft_widestrlen(str);
 	spaces = f->padding - length;
 	if (f->precision < length && f->precision != -1)
 		spaces = spaces - (f->precision - length);
 	ft_putwidestring(f, str, spaces);
+	return (1);
 }
 
 void			ft_printstring(t_print *f, va_list *arg)

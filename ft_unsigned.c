@@ -94,14 +94,11 @@ void			ft_putunsigned(t_print *f, uintmax_t i, int zeroes, int spaces)
 	}
 }
 
-void			ft_printunsigned(t_print *f, va_list *arg)
+void			ft_printunsigned(t_print *f, uintmax_t i)
 {
-	uintmax_t	i;
 	int			zeroes;
 	int			spaces;
 
-	i = va_arg(*(arg), uintmax_t);
-	i = ft_unsignedtypecast(f, i);
 	f->udigits = ft_udigits(f, i);
 	zeroes = ft_unsignedzero(f);
 	spaces = f->padding - f->udigits - zeroes;

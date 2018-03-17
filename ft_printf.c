@@ -6,7 +6,7 @@
 /*   By: akoller <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 12:06:09 by akoller           #+#    #+#             */
-/*   Updated: 2018/03/07 22:22:14 by akoller          ###   ########.fr       */
+/*   Updated: 2018/03/13 13:41:11 by akoller          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,26 @@ void		ft_varcheck(const char *fm, t_print *f)
 
 void		ft_varsort(t_print *f, va_list *arg)
 {
+	int i;
+
+	i = 0;
 	if (f->data == VAR_C || f->data == VAR_INVSPC)
 		ft_printchar(f, arg);
 	if ((f->data == VAR_S && f->caps == 1) || (f->data == VAR_S &&
 		f->len == PRINTF_L))
-		ft_printwidestring(f, arg);
+		i = ft_printwidestring(f, arg);
 	if (f->data == VAR_S && f->caps == 0)
 		ft_printstring(f, arg);
 	if (f->data == VAR_I)
 		ft_printsigned(f, arg);
 	if (f->data == VAR_HEX || f->data == VAR_OCT || f->data == VAR_UI ||
 		f->data == VAR_PTR)
-		ft_printunsigned(f, arg);
+		ft_printunsignedmod(f, arg);
+	if (i < 0)
+	{
+		write(1, "(null)", 6);
+		f->done += 6;
+	}
 }
 
 int			ft_printf(const char *format, ...)
