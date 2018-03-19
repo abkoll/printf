@@ -58,30 +58,3 @@ int				ft_signedzero(t_print *f, intmax_t i)
 	}
 	return (zeroes);
 }
-
-void			ft_printchar(t_print *f, va_list *arg)
-{
-	char		c;
-	char		prec;
-
-	prec = (f->data == VAR_INVSPC && f->zero == 1) ? '0' : ' ';
-	if (f->data == VAR_C)
-		c = va_arg(*(arg), int);
-	else
-		c = f->invalidspec;
-	if (f->minus)
-	{
-		write(1, &c, 1);
-		f->done++;
-	}
-	while (f->padding-- > 1)
-	{
-		write(1, &prec, 1);
-		f->done++;
-	}
-	if (f->minus == 0)
-	{
-		write(1, &c, 1);
-		f->done++;
-	}
-}

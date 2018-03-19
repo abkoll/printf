@@ -14,23 +14,17 @@
 
 void		ft_parser(const char *format, t_print *f)
 {
-	while (format[f->index] != '%' && format[f->index])
-	{
-		write(1, &format[f->index], 1);
-		f->done++;
-		f->index++;
-	}
+	unsigned int	len;
+
+	len = 0;
+	while (format[f->index + len] != '%' && format[f->index + len])
+		len++;
+	write(1, format + f->index, len);
+	f->index += len;
+	f->done += len;
 	if (format[f->index] == '%')
 		f->index++;
-	if (format[f->index] == '%')
-	{
-		write(1, &format[f->index], 1);
-		f->index++;
-		f->done++;
-		ft_parser(format, f);
-	}
-	else
-		ft_escapeparser(format, f);
+	ft_escapeparser(format, f);
 }
 
 void		ft_numbase(t_print *f)
@@ -75,14 +69,13 @@ void		ft_varsort(t_print *f, va_list *arg)
 	i = 0;
 	if (f->data == VAR_C || f->data == VAR_INVSPC)
 		ft_printchar(f, arg);
-	if ((f->data == VAR_S && f->caps == 1) || (f->data == VAR_S &&
-		f->len == PRINTF_L))
+	else if ((f->data == VAR_S) && (f->caps == 1 || f->len == PRINTF_L))
 		i = ft_printwidestring(f, arg);
-	if (f->data == VAR_S && f->caps == 0)
+	else if (f->data == VAR_S && f->caps == 0)
 		ft_printstring(f, arg);
-	if (f->data == VAR_I)
+	else if (f->data == VAR_I)
 		ft_printsigned(f, arg);
-	if (f->data == VAR_HEX || f->data == VAR_OCT || f->data == VAR_UI ||
+	else if (f->data == VAR_HEX || f->data == VAR_OCT || f->data == VAR_UI ||
 		f->data == VAR_PTR)
 		ft_printunsignedmod(f, arg);
 	if (i < 0)

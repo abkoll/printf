@@ -58,7 +58,7 @@ enum				e_printflag
 typedef struct		s_print
 {
 	unsigned int	done;
-	int				index;
+	unsigned int	index;
 	int				base;
 	int				data;
 	int				invalidspec;
@@ -99,5 +99,7 @@ uintmax_t			ft_udigits(t_print *f, uintmax_t i);
 void				ft_printsignedmod(t_print *f, va_list *arg);
 void				ft_strcast(t_print *f, va_list *arg);
 int					ft_printwidestring(t_print *f, va_list *arg);
+char				*ft_strchr(const char *s, int c);
+void				ft_putstr(char const *s);
 
 #endif
