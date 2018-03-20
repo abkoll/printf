@@ -20,6 +20,8 @@
 # include <wchar.h>
 # include <limits.h>
 # include <stdbool.h>
+# define ZEROSTRING "0000000000"
+# define SPACESTRING "          "
 
 union				u_printf
 {
@@ -101,5 +103,7 @@ void				ft_strcast(t_print *f, va_list *arg);
 int					ft_printwidestring(t_print *f, va_list *arg);
 char				*ft_strchr(const char *s, int c);
 void				ft_putstr(char const *s);
+void				ft_spaceput(t_print *f, int spaces);
+void				ft_zeroput(t_print *f, int zeroes);
 
 #endif

@@ -73,27 +73,6 @@ void			ft_uprefix(t_print *f, uintmax_t i)
 	}
 }
 
-void			ft_putunsigned(t_print *f, uintmax_t i, int zeroes, int spaces)
-{
-	while (f->minus == 0 && spaces-- > 0)
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
-	ft_uprefix(f, i);
-	while (zeroes-- > 0)
-	{
-		write(1, "0", 1);
-		f->done++;
-	}
-	ft_printunsignednum(f, i);
-	while (f->minus == 1 && (spaces-- > 0))
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
-}
-
 void			ft_printunsigned(t_print *f, uintmax_t i)
 {
 	int			zeroes;
@@ -110,5 +89,11 @@ void			ft_printunsigned(t_print *f, uintmax_t i)
 		spaces -= 2;
 	else if (f->hash == 1 && f->data == VAR_OCT)
 		spaces--;
-	ft_putunsigned(f, i, zeroes, spaces);
+	if (!(f->minus))
+		ft_spaceput(f, spaces);
+	ft_uprefix(f, i);
+	ft_zeroput(f, zeroes);
+	ft_printunsignednum(f, i);
+	if (f->minus)
+		ft_spaceput(f, spaces);
 }

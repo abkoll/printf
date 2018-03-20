@@ -17,11 +17,8 @@ void			ft_putwidestring(t_print *f, wchar_t *str, int spaces)
 	int			i;
 
 	i = 0;
-	while (f->minus == 0 && spaces-- > 0)
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
+	if (!(f->minus))
+		ft_spaceput(f, spaces);
 	while (str[i])
 	{
 		if ((f->precision != -1) && ((i + 1) > f->precision))
@@ -29,11 +26,8 @@ void			ft_putwidestring(t_print *f, wchar_t *str, int spaces)
 		write(1, &str[i++], 1);
 		f->done++;
 	}
-	while (f->minus == 1 && spaces-- > 0)
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
+	if (f->minus)
+		ft_spaceput(f, spaces);
 }
 
 int				ft_widestrlen(const wchar_t *c)
@@ -76,29 +70,17 @@ void			ft_printstring(t_print *f, va_list *arg)
 	spaces = f->padding - length;
 	if (f->precision < length && f->precision != -1)
 		spaces = spaces - (f->precision - length);
-	ft_putstring(f, str, spaces);
-}
-
-void			ft_putstring(t_print *f, char *str, int spaces)
-{
-	int			i;
-
-	i = 0;
-	while (f->minus == 0 && spaces-- > 0)
+	if (!(f->minus))
+		ft_spaceput(f, spaces);
+	length = 0;
+	while (str[length])
 	{
-		write(1, " ", 1);
-		f->done++;
-	}
-	while (str[i])
-	{
-		if ((f->precision != -1) && ((i + 1) > f->precision))
+		if ((f->precision != -1) && ((length) > f->precision - 1))
 			break ;
-		write(1, &str[i++], 1);
-		f->done++;
+		length++;
 	}
-	while (f->minus == 1 && spaces-- > 0)
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
+	write(1, str, length);
+	f->done += length;
+	if (f->minus)
+		ft_spaceput(f, spaces);
 }

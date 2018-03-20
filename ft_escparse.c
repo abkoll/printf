@@ -27,8 +27,20 @@ void	ft_flagset(t_print *f)
 	f->digits = 0;
 }
 
+// void	ft_widthwildcard(t_print *f)
+// {
+// 	int		i;
+
+// 	i = va_arg(*(arg), int);
+// 	if (ft_isdigit(i))
+// 		f->padding = i;
+// 	f->index++;
+// }
+
 void	ft_precision(const char *fm, t_print *f)
 {
+	// if (fm[f->index == '*'])
+	// 	ft_widthwildcard(f);
 	if (ft_isdigit(fm[f->index]))
 		f->padding = ft_atoi(&fm[f->index]);
 	while (ft_isdigit(fm[f->index]))

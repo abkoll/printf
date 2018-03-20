@@ -20,31 +20,10 @@ wint_t			ft_chartypecast(t_print *f, wint_t c)
 		return ((char)c);
 }
 
-void			ft_writechar(t_print *f, wint_t c, char prec)
-{
-	if (f->minus)
-	{
-		write(1, &c, 1);
-		f->done++;
-	}
-	while (f->padding-- > 1)
-	{
-		write(1, &prec, 1);
-		f->done++;
-	}
-	if (f->minus == 0)
-	{
-		write(1, &c, 1);
-		f->done++;
-	}
-}
-
 void			ft_printchar(t_print *f, va_list *arg)
 {
 	wint_t		c;
-	char		prec;
 
-	prec = (f->data == VAR_INVSPC && f->zero == 1) ? '0' : ' ';
 	if (f->data == VAR_C)
 	{
 		c = va_arg(*(arg), int);
@@ -52,5 +31,18 @@ void			ft_printchar(t_print *f, va_list *arg)
 	}
 	else
 		c = f->invalidspec;
-	ft_writechar(f, c, prec);
+	if (f->minus)
+	{
+		write(1, &c, 1);
+		f->done++;
+	}
+	if (f->data == VAR_INVSPC && f->zero)
+		ft_zeroput(f, f->padding - 1);
+	else
+		ft_spaceput(f, f->padding - 1);
+	if (f->minus == 0)
+	{
+		write(1, &c, 1);
+		f->done++;
+	}
 }

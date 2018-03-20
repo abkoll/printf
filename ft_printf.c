@@ -24,7 +24,6 @@ void		ft_parser(const char *format, t_print *f)
 	f->done += len;
 	if (format[f->index] == '%')
 		f->index++;
-	ft_escapeparser(format, f);
 }
 
 void		ft_numbase(t_print *f)
@@ -96,6 +95,7 @@ int			ft_printf(const char *format, ...)
 	while (format[flag.index])
 	{
 		ft_parser(format, &flag);
+		ft_escapeparser(format, &flag);
 		ft_varcheck(format, &flag);
 		ft_varsort(&flag, &arg);
 		if (format[flag.index])

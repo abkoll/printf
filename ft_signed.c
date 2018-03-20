@@ -76,27 +76,6 @@ intmax_t		ft_signedtypecast(t_print *f, intmax_t i)
 		return (i);
 }
 
-void			ft_putsigned(t_print *f, intmax_t i, int zeroes, int spaces)
-{
-	while (f->minus == 0 && spaces-- > 0)
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
-	ft_prefix(f, i);
-	while (zeroes-- > 0)
-	{
-		write(1, "0", 1);
-		f->done++;
-	}
-	ft_printsignednum(f, i);
-	while (f->minus == 1 && (spaces-- > 0))
-	{
-		write(1, " ", 1);
-		f->done++;
-	}
-}
-
 void			ft_printsigned(t_print *f, va_list *arg)
 {
 	intmax_t	i;
@@ -112,5 +91,11 @@ void			ft_printsigned(t_print *f, va_list *arg)
 		spaces++;
 	if (i < 0 || f->plus || f->space)
 		spaces--;
-	ft_putsigned(f, i, zeroes, spaces);
+	if (!(f->minus))
+		ft_spaceput(f, spaces);
+	ft_prefix(f, i);
+	ft_zeroput(f, zeroes);
+	ft_printsignednum(f, i);
+	if (f->minus)
+		ft_spaceput(f, spaces);
 }

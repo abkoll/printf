@@ -58,3 +58,33 @@ int				ft_signedzero(t_print *f, intmax_t i)
 	}
 	return (zeroes);
 }
+
+void			ft_spaceput(t_print *f, int spaces)
+{
+	while (spaces > 10)
+	{
+		write(1, SPACESTRING, 10);
+		f->done += 10;
+		spaces -= 10;
+	}
+	if (spaces > 0)
+	{
+		write(1, SPACESTRING, spaces);
+		f->done += spaces;
+	}
+}
+
+void			ft_zeroput(t_print *f, int zeroes)
+{
+	while (zeroes > 10)
+	{
+		write(1, ZEROSTRING, 10);
+		f->done += 10;
+		zeroes -= 10;
+	}
+	if (zeroes > 0)
+	{
+		write(1, ZEROSTRING, zeroes);
+		f->done += zeroes;
+	}
+}
